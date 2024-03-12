@@ -2,6 +2,7 @@
 import { useState, FormEvent } from 'react';
 import SearchBar from '@components/home/SearchBar';
 import Title from '@components/Title';
+import UserProfile from '@components/home/UserProfile';
 
 // The component
 export default function Home() {
@@ -38,7 +39,7 @@ export default function Home() {
 
     if (isLoading) {
         return (
-            <main className='bg-gray-100 h-screen p-4'>
+            <main className=' h-screen p-4'>
                 <Title className='text-center mt-8'>Star Wars Character Profiles</Title>
                 <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} searchTerm={searchTerm} />
                 <div className='flex justify-center items-center w-full'>
@@ -52,31 +53,8 @@ export default function Home() {
         <main className='bg-gray-100 h-screen p-4'>
             <Title className='text-center mt-8'>Star Wars Character Profiles</Title>
             <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} searchTerm={searchTerm} />
-            <div className='grid grid-cols-4 gap-4 p-4'>
-                {profiles.length > 0 &&
-                    profiles.map((profile, index) => (
-                        <div key={index} className='w-full max-w-md mx-auto p-8 my-4 bg-white rounded-xl shadow-md'>
-                            <h2 className='text-2xl font-bold text-gray-800'>{profile.name}</h2>
-                            <div className='flex gap-x-2'>
-                                <p>H: {profile.height}</p>
-                                <p>W: {profile.mass}</p>
-                            </div>
-                            <p>Hair Color: {profile.hair_color}</p>
-                            <p>Date of Birth: {profile.birth_year}</p>
-
-                            <h2>Films Appeared In</h2>
-                            {/* Assuming films are URLs in the profile.films array */}
-                            {profile?.films?.map((filmUrl: string) => (
-                                <p key={filmUrl}>Film details fetch separately</p>
-                            ))}
-
-                            <h2>Starships Flown</h2>
-                            {/* Assuming starships are URLs in the profile.starships array */}
-                            {profile?.starships?.map((shipUrl: string) => (
-                                <p key={shipUrl}>Starship details fetch separately</p>
-                            ))}
-                        </div>
-                    ))}
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-x-12 p-4'>
+                {profiles.length > 0 && profiles.map((profile, index) => <UserProfile key={index} profile={profile} />)}
             </div>
         </main>
     );

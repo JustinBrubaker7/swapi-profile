@@ -14,16 +14,48 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const apiResponse = await fetch(`https://swapi.tech/api/people/?name=${searchTerm}`);
+        const apiResponse = await fetch(`https://swapi.info/api/people/?search=${searchTerm}`);
         const apiData = await apiResponse.json();
 
-        console.log('apiData:', apiData);
-        //character.properties.url
-        const detailUrls = apiData.result.map((character: { properties: { url: any } }) => character.properties.url);
+        if (apiData.length === 0) {
+            return new NextResponse(JSON.stringify({ error: 'No characters found' }), {
+                status: 404,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        }
 
-        const details = await Promise.all(detailUrls.map((url: any) => fetch(url).then((res) => res.json())));
+        const filteredResults = apiData.filter((character: any) =>
+            character.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
-        return new NextResponse(JSON.stringify(details.map((detail: any) => detail.result.properties)), {
+        // Assuming apiData.results holds the characters
+        const characterDetailsWithExtras = await Promise.all(
+            filteredResults.map(async (character: any) => {
+                // Fetching film details
+                const filmDetails = await Promise.all(
+                    character?.films?.map(async (film: string) => {
+                        const filmResponse = await fetch(film);
+                        const filmData = await filmResponse.json();
+                        return filmData;
+                    })
+                );
+
+                // Fetching starship details
+                const starshipDetails = await Promise.all(
+                    character?.starships?.map(async (starship: string) => {
+                        const starshipResponse = await fetch(starship);
+                        const starshipData = await starshipResponse.json();
+                        return starshipData;
+                    })
+                );
+
+                return { ...character, filmDetails, starshipDetails };
+            })
+        );
+
+        return new NextResponse(JSON.stringify(characterDetailsWithExtras), {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
