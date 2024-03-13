@@ -6,10 +6,12 @@ import UserProfile from '@components/home/UserProfile';
 
 // The component
 export default function Home() {
-    // State for the search input and character profiles
     const [searchTerm, setSearchTerm] = useState('');
-    const [profiles, setProfiles] = useState<any[]>([]); // Now an array to hold multiple profiles
+    const [profiles, setProfiles] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const FETCH_URL = '/api/user/search?searchTerm=';
 
     // Handle search input change
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
@@ -18,18 +20,24 @@ export default function Home() {
 
     // Handle form submission
     const handleSubmit = async (event: FormEvent) => {
-        event.preventDefault(); // Prevent the form from reloading the page
-        setIsLoading(true); // Set loading state to true
-        const response = await fetch(`/api/user/search?searchTerm=${encodeURIComponent(searchTerm)}`, {
+        event.preventDefault();
+        setIsLoading(true);
+
+        const response = await fetch(`${FETCH_URL}${encodeURIComponent(searchTerm)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
         const data = await response.json();
-        console.log(data);
+        if (response.status !== 200 || data.error) {
+            setError(data.error || 'Failed to fetch character details');
+            setIsLoading(false);
+            return;
+        }
+        setError('');
 
-        if (data && data?.length > 0) {
+        if (data?.length > 0) {
             setProfiles(data); // Store all results
         } else {
             setProfiles([]); // Reset profiles if no results are found
@@ -44,6 +52,18 @@ export default function Home() {
                 <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} searchTerm={searchTerm} />
                 <div className='flex justify-center items-center w-full'>
                     <div className='animate-spin rounded-full h-32 mt-14 w-32 border-t-2 border-b-2 border-yellow-primary'></div>
+                </div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className=' h-screen p-4'>
+                <Title className='text-center mt-8'>Star Wars Character Profiles</Title>
+                <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} searchTerm={searchTerm} />
+                <div className='flex justify-center items-center w-full'>
+                    <p className='text-center text-red-500'>{error}</p>
                 </div>
             </main>
         );

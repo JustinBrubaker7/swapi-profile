@@ -1,6 +1,6 @@
-// src/app/api/user/search/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
+// Main handler function remains
 export async function GET(request: NextRequest) {
     const searchTerm = request.nextUrl.searchParams.get('searchTerm');
 
@@ -14,47 +14,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const apiResponse = await fetch(`https://swapi.info/api/people/?search=${searchTerm}`);
-        const apiData = await apiResponse.json();
-
-        if (apiData.length === 0) {
-            return new NextResponse(JSON.stringify({ error: 'No characters found' }), {
-                status: 404,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-        }
-
-        const filteredResults = apiData.filter((character: any) =>
-            character.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        // Assuming apiData.results holds the characters
-        const characterDetailsWithExtras = await Promise.all(
-            filteredResults.map(async (character: any) => {
-                // Fetching film details
-                const filmDetails = await Promise.all(
-                    character?.films?.map(async (film: string) => {
-                        const filmResponse = await fetch(film);
-                        const filmData = await filmResponse.json();
-                        return filmData;
-                    })
-                );
-
-                // Fetching starship details
-                const starshipDetails = await Promise.all(
-                    character?.starships?.map(async (starship: string) => {
-                        const starshipResponse = await fetch(starship);
-                        const starshipData = await starshipResponse.json();
-                        return starshipData;
-                    })
-                );
-
-                return { ...character, filmDetails, starshipDetails };
-            })
-        );
-
+        const characterDetailsWithExtras = await searchCharacters(searchTerm);
         return new NextResponse(JSON.stringify(characterDetailsWithExtras), {
             status: 200,
             headers: {
@@ -70,4 +30,47 @@ export async function GET(request: NextRequest) {
             },
         });
     }
+}
+
+// Extracted search logic
+async function searchCharacters(searchTerm: string) {
+    const apiResponse = await fetch(`https://swapi.info/api/people/?search=${searchTerm}`);
+    const apiData = await apiResponse.json();
+
+    if (apiData.length === 0) {
+        throw new Error('No characters found');
+    }
+
+    return processCharacters(apiData, searchTerm);
+}
+
+// Extracted character processing logic
+async function processCharacters(apiData: any[], searchTerm: string) {
+    const filteredResults = apiData.filter((character: any) =>
+        character.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (filteredResults.length === 0) {
+        return {
+            error: `No characters found for '${searchTerm}'`,
+        };
+    }
+
+    return Promise.all(
+        filteredResults.map(async (character: any) => {
+            const filmDetails = await fetchDetails(character.films);
+            const starshipDetails = await fetchDetails(character.starships);
+
+            return { ...character, filmDetails, starshipDetails };
+        })
+    );
+}
+
+// Generic function to fetch details (films or starships)
+async function fetchDetails(urls: string[]) {
+    return Promise.all(
+        urls.map(async (url: string) => {
+            const response = await fetch(url);
+            return response.json();
+        })
+    );
 }

@@ -1,23 +1,20 @@
 import React from 'react';
 
 export default function UserProfile({ profile, key }: { profile: any; key: number }) {
-    // Assuming filmDetails is an array of objects, we can map through it and render titles or any other property
     const renderFilmTitles = (films: any[]) => {
         return films.map((film, index) => (
             <p key={index}>{film.title}</p> // Use film.title or any other appropriate property
         ));
     };
 
-    // Function to render starship details or placeholders based on URLs
     const renderStarships = (starships: any[]) => {
         return starships.map((ship, index) => <p key={index}>{ship.name}</p>); // Use shipUrl or any other appropriate property
     };
 
     return (
-        // add gradient
         <div
             key={key}
-            className='w-full mx-auto p-8 my-4 bg-white rounded-xl shadow-md grid grid-cols-2 gap-4 relative bg-gradient-to-t from-gray-100/50 via-gray-200/50 to-gray-100/50'
+            className='min-h-[350px] w-full mx-auto p-8 my-4 bg-white rounded-xl shadow-md grid grid-cols-2 gap-4 relative bg-gradient-to-t from-gray-100/50 via-gray-200/50 to-gray-100/50'
         >
             <div>
                 <div className='mb-4'>
