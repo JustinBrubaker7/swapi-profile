@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Character } from '@/types/Character';
 
 // Main handler function remains
 export async function GET(request: NextRequest) {
@@ -45,8 +46,8 @@ async function searchCharacters(searchTerm: string) {
 }
 
 // Extracted character processing logic
-async function processCharacters(apiData: any[], searchTerm: string) {
-    const filteredResults = apiData.filter((character: any) =>
+async function processCharacters(apiData: Character[], searchTerm: string) {
+    const filteredResults = apiData.filter((character: Character) =>
         character.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     if (filteredResults.length === 0) {
@@ -56,7 +57,7 @@ async function processCharacters(apiData: any[], searchTerm: string) {
     }
 
     return Promise.all(
-        filteredResults.map(async (character: any) => {
+        filteredResults.map(async (character: Character) => {
             const filmDetails = await fetchDetails(character.films);
             const starshipDetails = await fetchDetails(character.starships);
 

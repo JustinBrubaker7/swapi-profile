@@ -3,15 +3,16 @@ import { useState, FormEvent } from 'react';
 import SearchBar from '@components/home/SearchBar';
 import Title from '@components/Title';
 import UserProfile from '@components/home/UserProfile';
+import { Character } from '@/types/Character';
 
 // The component
 export default function Home() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [profiles, setProfiles] = useState<any[]>([]);
+    const [profiles, setProfiles] = useState<Character[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const FETCH_URL = '/api/user/search?searchTerm=';
+    const GET_PATH = '/api/user/search?searchTerm=';
 
     // Handle search input change
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
@@ -23,7 +24,7 @@ export default function Home() {
         event.preventDefault();
         setIsLoading(true);
 
-        const response = await fetch(`${FETCH_URL}${encodeURIComponent(searchTerm)}`, {
+        const response = await fetch(`${GET_PATH}${encodeURIComponent(searchTerm)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,3 +80,4 @@ export default function Home() {
         </main>
     );
 }
+
