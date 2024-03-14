@@ -1,4 +1,4 @@
-# SWAMI PROFILE
+# SWAPI PROFILE
 
 ## Description
 
@@ -15,7 +15,7 @@ This project is a simple application that allows you to view star wars character
 To install the project, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/JustinBrubaker7/swapi-profile.git`
-2. Navigate to the project directory: `cd swami-profile`
+2. Navigate to the project directory: `cd swapi-profile`
 3. Install dependencies: `npm install`
 4. Start the server: `npm run dev`
 5. Open your browser and navigate to `http://localhost:3000`
