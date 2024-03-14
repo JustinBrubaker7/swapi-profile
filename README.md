@@ -24,6 +24,10 @@ To install the project, follow these steps:
 
 After starting the server, open your browser and navigate to `http://localhost:3000` to start using the application.
 
+## Live Demo
+
+You can view a live demo of the application [here](https://swapi-profile.vercel.app/)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
