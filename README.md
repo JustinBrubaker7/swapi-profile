@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SWAMI PROFILE
 
-## Getting Started
+## Description
 
-First, run the development server:
+This project is a simple application that allows you to view star wars characters and their profiles. It is a simple application that uses the [SWAPI](https://swapi.info/) API to fetch data about star wars characters and display it in a simple and easy to use interface.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   View a list of star wars characters
+-   View a profile of a star wars character
+-   Search for a star wars character by name
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To install the project, follow these steps:
 
-## Learn More
+1. Clone the repository: `git clone https://github.com/JustinBrubaker7/swapi-profile.git`
+2. Navigate to the project directory: `cd swami-profile`
+3. Install dependencies: `npm install`
+4. Start the server: `npm run dev`
+5. Open your browser and navigate to `http://localhost:3000`
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+After starting the server, open your browser and navigate to `http://localhost:3000` to start using the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you have any questions, feel free to reach out to us at justinbrubaker7@gmail.com
+
+## Acknowledgements
+
+-   [Typescript](https://www.typescriptlang.org/) for the programming language
+-   [Next.js](https://nextjs.org/) for the React framework
+-   [Tailwind CSS](https://tailwindcss.com/) for the CSS framework
+
