@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
             },
         });
     } catch (error) {
-        return new NextResponse(JSON.stringify({ error: error }), {
+        return new NextResponse(JSON.stringify({ error: 'Failed to fetch character details' }), {
             status: 500,
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ async function processCharacters(apiData: Character[], searchTerm: string) {
     }
 
     return Promise.all(
-        filteredResults.map(async (character: Character) => {
+        filteredResults?.map(async (character: Character) => {
             const filmDetails = await fetchDetails(character.films);
             const starshipDetails = await fetchDetails(character.starships);
 

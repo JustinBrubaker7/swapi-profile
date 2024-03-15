@@ -1,6 +1,14 @@
 import React from 'react';
 
-export default function SearchBar({ handleChange, handleSubmit, searchTerm }: any) {
+export default function SearchBar({
+    handleChange,
+    handleSubmit,
+    searchTerm,
+}: {
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleSubmit: (e: React.FormEvent) => void;
+    searchTerm: string;
+}) {
     return (
         <div className='flex justify-center items-center w-full p-4'>
             <form onSubmit={handleSubmit}>
