@@ -2,6 +2,9 @@
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'jsdom',
+    setupFiles: [
+        '<rootDir>/jest.setup.js', // Add this line
+    ],
     moduleNameMapper: {
         // Handle module aliases (if you have any in your project)
         '^@components/(.*)$': '<rootDir>/components/$1',

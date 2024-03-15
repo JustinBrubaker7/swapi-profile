@@ -23,8 +23,7 @@ export async function GET(request: NextRequest) {
             },
         });
     } catch (error) {
-        console.error('Failed to fetch character details:', error);
-        return new NextResponse(JSON.stringify({ error: 'Failed to fetch character details' }), {
+        return new NextResponse(JSON.stringify({ error: error }), {
             status: 500,
             headers: {
                 'Content-Type': 'application/json',
